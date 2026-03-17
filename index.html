@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gifted - Gift Card Manager - Manage and redeem your gift cards with ease">
+    <meta name="author" content="Gifted">
+    <title>Gifted - Gift Card Manager</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: white;
+        }
+        
+        .phone-container {
+            width: 100%;
+            max-width: 393px;
+            min-height: 100vh;
+            height: 100vh;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .toggle-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            padding: 4px 8px;
+            font-size: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+        
+        button {
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        button:hover:not(.toggle-btn) {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        button:active:not(.toggle-btn) {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Card Detail Screen -->
+        <div id="cardDetailScreen" class="screen active">
+            <button class="toggle-btn" onclick="toggleCodeProvider()">
+                <span id="toggleText">Both MC</span>
+            </button>
+            
+            <div style="position: absolute; left: 24px; top: 12px; right: 24px; height: 40px;">
+                <p style="position: absolute; left: 0; top: 0; font-family: SF Pro Text, -apple-system, sans-serif; font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: -0.5px; color: #000000; margin: 0;">9:41</p>
+                <div style="position: absolute; right: 0; top: 3px; display: flex; align-items: center; gap: 5px;">
+                    <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5V8.5C15.5 8.5 15.5 8.5 15.5 8.5C15.5 8.5 15.5 8.5 15.5 8.5H13.8333V3.5H15.5ZM12.1667 4.83333V8.5H10.5V4.83333H12.1667ZM8.83333 6.16667V8.5H7.16667V6.16667H8.83333ZM5.5 7.5V8.5H3.83333V7.5H5.5ZM2.16667 8.5V8.91667H0.5V8.5H2.16667Z" fill="black"/>
+                    </svg>
+                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 2.5C9.6569 2.5 11 3.84315 11 5.5C11 7.1569 9.6569 8.5 8 8.5C6.3431 8.5 5 7.1569 5 5.5C5 3.84315 6.3431 2.5 8 2.5ZM0 6C0.82843 6 1.5 5.32843 1.5 4.5C1.5 3.67157 0.82843 3 0 3V6ZM16 6C15.1716 6 14.5 5.32843 14.5 4.5C14.5 3.67157 15.1716 3 16 3V6Z" fill="black"/>
+                    </svg>
+                    <svg width="25" height="12" viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect opacity="0.35" x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="black"/>
+                        <path opacity="0.4" d="M23 4V8C23.6 7.66667 24.2 7.33333 24 6C24 5.33333 23.6 4.66667 23 4Z" fill="black"/>
+                        <rect x="2" y="2" width="18" height="8" rx="1" fill="black"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 16px; top: 56px; width: 361px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 4px; align-items: center; cursor: pointer;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="#4062CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 16px; color: #4062cc; margin: 0; white-space: nowrap;">Back</p>
+                </div>
+                <div style="display: flex; gap: 4px; align-items: center; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.99813 12.6673C5.51645 12.6673 3.28826 10.9874 2.03787 8.17652C2.01289 8.12092 2 8.06098 2 8.00038C2 7.93972 2.01289 7.87978 2.03787 7.82418C3.28949 5.01275 5.51768 3.33398 7.9988 3.33398C10.4799 3.33398 12.7105 5.01275 13.9621 7.82418C13.9871 7.87978 14 7.93972 14 8.00038C14 8.06098 13.9871 8.12092 13.9621 8.17652C12.7111 10.9874 10.4829 12.6655 8.00187 12.6673H7.99813ZM2.96335 8.00065C4.07467 10.3682 5.94535 11.7753 7.99693 11.7759C10.0485 11.7765 11.9185 10.3682 13.0305 8.00065C11.9179 5.63255 10.0473 4.22536 7.99567 4.22536C5.94411 4.22536 4.07653 5.63255 2.96459 8.00065H2.96335Z" fill="#4062CC"/>
+                        <path d="M7.99885 10.2757C7.53318 10.2757 7.07798 10.1424 6.69078 9.89253C6.30362 9.64266 6.00186 9.28752 5.82369 8.87206C5.64551 8.45659 5.59892 7.99939 5.68981 7.55833C5.7807 7.11726 6.005 6.71219 6.33432 6.39423C6.66364 6.07628 7.08318 5.85979 7.53992 5.77213C7.99665 5.68447 8.47005 5.72958 8.90025 5.90175C9.33045 6.07392 9.69812 6.36543 9.95672 6.73939C10.2153 7.11339 10.3533 7.55299 10.3532 8.00272C10.3523 8.60539 10.1039 9.18306 9.66252 9.60912C9.22118 10.0353 8.62292 10.2749 7.99885 10.2757ZM7.99885 6.61989C7.71578 6.61989 7.43912 6.70093 7.20372 6.85279C6.96838 7.00466 6.78492 7.22053 6.67658 7.47306C6.56822 7.72559 6.53984 8.00346 6.59502 8.27159C6.6502 8.53966 6.78645 8.78599 6.98658 8.97932C7.18665 9.17266 7.44165 9.30432 7.71925 9.35772C7.99685 9.41112 8.28465 9.38386 8.54619 9.27932C8.80772 9.17479 9.03132 8.99772 9.18865 8.77046C9.34598 8.54326 9.43005 8.27606 9.43019 8.00272C9.42965 7.63619 9.27872 7.28486 9.01045 7.02566C8.74212 6.76646 8.37838 6.62053 7.99885 6.61989Z" fill="#4062CC"/>
+                    </svg>
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 500; font-size: 14px; color: #4062cc; margin: 0; white-space: nowrap;">View Greeting</p>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 16px; top: 109px;">
+                <div style="width: 361px; height: 220px; border: 1px solid #edeff3; border-radius: 20px; box-shadow: 0px 4px 20px 0px rgba(173, 173, 173, 0.25); overflow: hidden; position: relative; background-color: #f5f5f5; display: flex; flex-direction: column; padding: 24px;">
+                    <div style="font-family: SF Pro Display, -apple-system, sans-serif; font-size: 32px; font-weight: 700; color: #000000; margin-bottom: auto;">Presentkort</div>
+                    <div style="font-family: Brush Script MT, cursive; font-size: 48px; font-weight: 400; color: #000000; text-align: left; margin-top: auto; padding-bottom: 20px; letter-spacing: 2px;">MODERNA MUSEET</div>
+                </div>
+                
+                <div id="poweredByCard" style="position: absolute; right: 0; top: 232px; display: flex; align-items: center; gap: 4px;">
+                    <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 12px; color: #666666; margin: 0; white-space: nowrap;">Powered by</p>
+                    <svg width="32" height="22" viewBox="0 0 152.4 108" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="60.4" y="25.7" fill="#FF5F00" width="31.5" height="56.6"/>
+                        <path fill="#EB001B" d="M62.4,54c0-11,5.1-21.5,13.7-28.3c-15.6-12.3-38.3-9.6-50.6,6.1C13.3,47.4,16,70,31.7,82.3c13.1,10.3,31.4,10.3,44.5,0C67.5,75.5,62.4,65,62.4,54z"/>
+                        <path fill="#F79E1B" d="M134.4,54c0,19.9-16.1,36-36,36c-8.1,0-15.9-2.7-22.2-7.7c15.6-12.3,18.3-34.9,6-50.6c-1.8-2.2-3.8-4.3-6-6c15.6-12.3,38.3-9.6,50.5,6.1C131.7,38.1,134.4,45.9,134.4,54z"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 16px; top: 369px; width: 361px; display: flex; flex-direction: column; gap: 32px;">
+                <button id="revealBtn" onclick="showRedeemScreen()" style="background-color: #4062cc; color: white; padding: 12px 32px; border-radius: 42px; border: none; cursor: pointer; font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 14px; width: 100%;">
+                    Reveal Mastercard
+                </button>
+                
+                <div style="display: flex; flex-direction: column; gap: 8px; font-family: Galano Grotesque, sans-serif; font-weight: 500; font-size: 16px; color: #000000;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <p style="margin: 0;">Card ID</p>
+                        <p style="margin: 0; text-align: right;">2223 0000 0000 0007</p>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <p style="margin: 0;">Balance</p>
+                        <p style="margin: 0; text-align: right;">1000 SEK</p>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <p style="margin: 0;">Valid Through</p>
+                        <p style="margin: 0; text-align: right;">2025-12-12</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 9px; top: 583px; display: flex; flex-direction: column;">
+                <div style="width: 375px; border-bottom: 1px solid #ececec; padding: 14px 16px; cursor: pointer;">
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; color: #4062cc; margin: 0; white-space: nowrap;">View Greeting</p>
+                </div>
+                <div style="width: 375px; border-bottom: 1px solid #ececec; padding: 14px 16px; cursor: pointer;">
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; color: #4062cc; margin: 0; white-space: nowrap;">Transaction History</p>
+                </div>
+                <div style="width: 375px; border-bottom: 1px solid #ececec; padding: 14px 16px; cursor: pointer;">
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; color: #4062cc; margin: 0; white-space: nowrap;">Brand Information</p>
+                </div>
+                <div style="width: 375px; padding: 14px 16px; cursor: pointer;">
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; color: #4062cc; margin: 0; white-space: nowrap;">Terms & Policies</p>
+                </div>
+            </div>
+            
+            <button style="position: absolute; left: 50%; transform: translateX(-50%); top: 819px; width: 361px; background-color: white; border: 1px solid #979797; border-radius: 42px; padding: 12px 32px; cursor: pointer; font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 16px; color: #979797;">
+                Delete Card
+            </button>
+        </div>
+        
+        <!-- Redeem Options Screen -->
+        <div id="redeemScreen" class="screen">
+            <div style="position: absolute; left: 24px; top: 12px; right: 24px; height: 40px;">
+                <p style="position: absolute; left: 0; top: 0; font-family: SF Pro Text, -apple-system, sans-serif; font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: -0.5px; color: #000000; margin: 0;">9:41</p>
+                <div style="position: absolute; right: 0; top: 3px; display: flex; align-items: center; gap: 5px;">
+                    <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5V8.5C15.5 8.5 15.5 8.5 15.5 8.5C15.5 8.5 15.5 8.5 15.5 8.5H13.8333V3.5H15.5ZM12.1667 4.83333V8.5H10.5V4.83333H12.1667ZM8.83333 6.16667V8.5H7.16667V6.16667H8.83333ZM5.5 7.5V8.5H3.83333V7.5H5.5ZM2.16667 8.5V8.91667H0.5V8.5H2.16667Z" fill="black"/>
+                    </svg>
+                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 2.5C9.6569 2.5 11 3.84315 11 5.5C11 7.1569 9.6569 8.5 8 8.5C6.3431 8.5 5 7.1569 5 5.5C5 3.84315 6.3431 2.5 8 2.5ZM0 6C0.82843 6 1.5 5.32843 1.5 4.5C1.5 3.67157 0.82843 3 0 3V6ZM16 6C15.1716 6 14.5 5.32843 14.5 4.5C14.5 3.67157 15.1716 3 16 3V6Z" fill="black"/>
+                    </svg>
+                    <svg width="25" height="12" viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect opacity="0.35" x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="black"/>
+                        <path opacity="0.4" d="M23 4V8C23.6 7.66667 24.2 7.33333 24 6C24 5.33333 23.6 4.66667 23 4Z" fill="black"/>
+                        <rect x="2" y="2" width="18" height="8" rx="1" fill="black"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 16px; top: 56px;">
+                <div onclick="showCardScreen()" style="display: flex; gap: 4px; align-items: center; cursor: pointer;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="#4062CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 16px; color: #4062cc; margin: 0; white-space: nowrap;">Back</p>
+                </div>
+            </div>
+            
+            <div style="position: absolute; left: 25px; top: 109px; right: 25px;">
+                <h1 style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 28px; line-height: 34px; color: #1A1A1A; margin: 0 0 16px 0;">Where Will You Redeem?</h1>
+                <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 16px; line-height: 24px; color: #4D4D4D; margin: 0;">How do you want to redeem your card?</p>
+            </div>
+            
+            <button id="onlineBtn" onclick="showOnlineRedeemScreen()" style="position: absolute; left: 16px; top: 196px; width: 358px; height: 56px; background-color: white; border: 1px solid #AAAAAA; border-radius: 28px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 24px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.188 17.625H7.813C7.0224 17.625 6.3755 16.979 6.3755 16.188V7.813C6.3755 7.022 7.0224 6.375 7.813 6.375H16.188C16.9786 6.375 17.6255 7.022 17.6255 7.813V16.188C17.6255 16.979 16.9786 17.625 16.188 17.625Z" fill="white"/>
+                        <path d="M16.1881 18.057H7.8131C6.7781 18.057 5.9443 17.223 5.9443 16.188V14.425C5.9443 14.181 6.1312 13.994 6.3756 13.994C6.62 13.994 6.8068 14.181 6.8068 14.425V16.188C6.8068 16.748 7.2525 17.194 7.8131 17.194H16.1881C16.7487 17.194 17.1943 16.748 17.1943 16.188V14.425C17.1943 14.181 17.3812 13.994 17.6256 13.994C17.87 13.994 18.0568 14.181 18.0568 14.425V16.188C18.0568 17.223 17.2231 18.057 16.1881 18.057ZM17.6256 8.244C17.3812 8.244 17.1943 8.057 17.1943 7.813C17.1943 7.252 16.7487 6.807 16.1881 6.807H7.8131C7.2525 6.807 6.8068 7.252 6.8068 7.813C6.8068 8.057 6.62 8.244 6.3756 8.244C6.1312 8.244 5.9443 8.057 5.9443 7.813C5.9443 6.778 6.7781 5.944 7.8131 5.944H16.1881C17.2231 5.944 18.0568 6.778 18.0568 7.813C18.0568 8.057 17.87 8.244 17.6256 8.244Z" fill="#444B54"/>
+                        <path d="M15.7563 8.532H8.2813C8.037 8.532 7.8501 8.345 7.8501 8.1C7.8501 7.856 8.037 7.669 8.2813 7.669H15.7563C16.0007 7.669 16.1876 7.856 16.1876 8.1C16.1876 8.345 16.0007 8.532 15.7563 8.532Z" fill="#444B54"/>
+                        <path d="M8.1007 7.669C7.9863 7.669 7.8766 7.715 7.7957 7.795C7.7149 7.876 7.6694 7.986 7.6694 8.1C7.6694 8.215 7.7149 8.325 7.7957 8.405C7.8766 8.486 7.9863 8.532 8.1007 8.532C8.2151 8.532 8.3247 8.486 8.4056 8.405C8.4865 8.325 8.5319 8.215 8.5319 8.1C8.5319 7.986 8.4865 7.876 8.4056 7.795C8.3247 7.715 8.2151 7.669 8.1007 7.669ZM9.5382 7.669C9.4238 7.669 9.3141 7.715 9.2332 7.795C9.1524 7.876 9.1069 7.986 9.1069 8.1C9.1069 8.215 9.1524 8.325 9.2332 8.405C9.3141 8.486 9.4238 8.532 9.5382 8.532C9.6526 8.532 9.7622 8.486 9.8431 8.405C9.924 8.325 9.9694 8.215 9.9694 8.1C9.9694 7.986 9.924 7.876 9.8431 7.795C9.7622 7.715 9.6526 7.669 9.5382 7.669ZM10.9757 7.669C10.8613 7.669 10.7516 7.715 10.6707 7.795C10.5899 7.876 10.5444 7.986 10.5444 8.1C10.5444 8.215 10.5899 8.325 10.6707 8.405C10.7516 8.486 10.8613 8.532 10.9757 8.532C11.0901 8.532 11.1997 8.486 11.2806 8.405C11.3615 8.325 11.4069 8.215 11.4069 8.1C11.4069 7.986 11.3615 7.876 11.2806 7.795C11.1997 7.715 11.0901 7.669 10.9757 7.669Z" fill="black"/>
+                        <path d="M18.0568 9.826C18.0568 9.581 17.87 9.394 17.6256 9.394H6.3756C6.1312 9.394 5.9443 9.581 5.9443 9.826V12.715C5.9443 12.959 6.1312 13.146 6.3756 13.146C6.4475 13.146 6.505 13.146 6.5768 13.132C6.8931 13.089 7.1806 12.945 7.3962 12.715C7.5112 12.6 7.655 12.542 7.8131 12.542C7.9712 12.542 8.115 12.6 8.23 12.715C8.7906 13.276 9.7106 13.276 10.2712 12.715L10.2856 12.701C10.5012 12.485 10.8606 12.485 11.0762 12.701L11.105 12.729C11.6656 13.29 12.5568 13.29 13.1175 12.729L13.1462 12.701C13.3618 12.485 13.7212 12.485 13.9368 12.701L13.9656 12.729C14.2387 13.002 14.6125 13.146 14.9718 13.146C15.3312 13.146 15.705 13.002 15.9781 12.729L15.9925 12.715C16.2225 12.485 16.5962 12.485 16.8262 12.715C17.3868 13.276 18.3068 13.276 18.8675 12.715C19.0975 12.485 19.4712 12.485 19.7012 12.715C20.2618 13.276 21.1818 13.276 21.7425 12.715C21.9725 12.485 22.3462 12.485 22.5762 12.715C22.8493 12.988 23.2087 13.146 23.5968 13.146C23.7118 13.146 23.8268 13.103 23.8987 13.017C23.985 12.931 24.0281 12.83 24.0281 12.715L18.0568 9.826Z" fill="#4062CC"/>
+                    </svg>
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 18px; color: #000000; margin: 0;">Online</p>
+                </div>
+                
+                <div id="poweredByOnline" style="display: none; align-items: center; gap: 4px;">
+                    <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 10px; color: #666666; margin: 0; white-space: nowrap;">Powered by</p>
+                    <svg width="24" height="17" viewBox="0 0 152.4 108" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="60.4" y="25.7" fill="#FF5F00" width="31.5" height="56.6"/>
+                        <path fill="#EB001B" d="M62.4,54c0-11,5.1-21.5,13.7-28.3c-15.6-12.3-38.3-9.6-50.6,6.1C13.3,47.4,16,70,31.7,82.3c13.1,10.3,31.4,10.3,44.5,0C67.5,75.5,62.4,65,62.4,54z"/>
+                        <path fill="#F79E1B" d="M134.4,54c0,19.9-16.1,36-36,36c-8.1,0-15.9-2.7-22.2-7.7c15.6-12.3,18.3-34.9,6-50.6c-1.8-2.2-3.8-4.3-6-6c15.6-12.3,38.3-9.6,50.5,6.1C131.7,38.1,134.4,45.9,134.4,54z"/>
+                    </svg>
+                </div>
+            </button>
+            
+            <button style="position: absolute; left: 16px; top: 266px; width: 358px; height: 56px; background-color: white; border: 1px solid #AAAAAA; border-radius: 28px; cursor: pointer; display: flex; align-items: center; padding: 0 24px; gap: 16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.0186 10.281H9.0186C7.9873 10.281 7.1436 11.125 7.1436 12.156V17.844C7.1436 18.875 7.9873 19.719 9.0186 19.719H15.0186C16.0498 19.719 16.8936 18.875 16.8936 17.844V12.156C16.8936 11.125 16.0498 10.281 15.0186 10.281Z" fill="#F7F7FB"/>
+                    <path d="M16.6875 14.238H7.3125V17.681H16.6875V14.238Z" fill="#DFDFE3"/>
+                    <path d="M9.9561 17.156H11.7061V19.719H9.9561V17.156ZM13.9561 17.156H15.8311V18.906H13.9561V17.156Z" fill="white"/>
+                    <path d="M15.0186 10.281H9.0186C7.9873 10.281 7.1436 11.125 7.1436 12.156V13.219H16.8936V12.156C16.8936 11.125 16.0498 10.281 15.0186 10.281Z" fill="#70C183"/>
+                    <path d="M15.8311 16.594H13.9561C13.6373 16.594 13.3936 16.837 13.3936 17.156V18.906C13.3936 19.225 13.6373 19.469 13.9561 19.469H15.8311C16.1498 19.469 16.3936 19.225 16.3936 18.906V17.156C16.3936 16.837 16.1498 16.594 15.8311 16.594ZM15.2686 18.344H14.5186V17.719H15.2686V18.344Z" fill="black"/>
+                    <path d="M15.0186 9.719H9.0186C7.6686 9.719 6.5811 10.806 6.5811 12.156V17.844C6.5811 19.194 7.6686 20.281 9.0186 20.281H15.0186C16.3686 20.281 17.4561 19.194 17.4561 17.844V12.156C17.4561 10.806 16.3686 9.719 15.0186 9.719ZM9.0186 10.844H15.0186C15.7498 10.844 16.3311 11.425 16.3311 12.156V12.656H7.7061V12.156C7.7061 11.425 8.2873 10.844 9.0186 10.844ZM10.5186 19.156V17.719H11.1436V19.156H10.5186ZM15.0186 19.156H12.2686V17.156C12.2686 16.837 12.0248 16.594 11.7061 16.594H9.9561C9.6373 16.594 9.3936 16.837 9.3936 17.156V19.156H9.0186C8.2873 19.156 7.7061 18.575 7.7061 17.844V13.781H16.3311V17.844C16.3311 18.575 15.7498 19.156 15.0186 19.156Z" fill="black"/>
+                    <path d="M9.0187 11.781C8.9043 11.781 8.7946 11.827 8.7137 11.908C8.6329 11.988 8.5874 12.098 8.5874 12.213C8.5874 12.327 8.6329 12.437 8.7137 12.518C8.7946 12.598 8.9043 12.644 9.0187 12.644C9.1331 12.644 9.2427 12.598 9.3236 12.518C9.4045 12.437 9.4499 12.327 9.4499 12.213C9.4499 12.098 9.4045 11.988 9.3236 11.908C9.2427 11.827 9.1331 11.781 9.0187 11.781ZM10.4562 11.781C10.3418 11.781 10.2321 11.827 10.1512 11.908C10.0704 11.988 10.0249 12.098 10.0249 12.213C10.0249 12.327 10.0704 12.437 10.1512 12.518C10.2321 12.598 10.3418 12.644 10.4562 12.644C10.5706 12.644 10.6802 12.598 10.7611 12.518C10.842 12.437 10.8874 12.327 10.8874 12.213C10.8874 12.098 10.842 11.988 10.7611 11.908C10.6802 11.827 10.5706 11.781 10.4562 11.781ZM11.8937 11.781C11.7793 11.781 11.6696 11.827 11.5887 11.908C11.5079 11.988 11.4624 12.098 11.4624 12.213C11.4624 12.327 11.5079 12.437 11.5887 12.518C11.6696 12.598 11.7793 12.644 11.8937 12.644C12.0081 12.644 12.1177 12.598 12.1986 12.518C12.2795 12.437 12.3249 12.327 12.3249 12.213C12.3249 12.098 12.2795 11.988 12.1986 11.908C12.1177 11.827 12.0081 11.781 11.8937 11.781ZM16.6875 13.8H7.3125C6.9937 13.8 6.75 13.556 6.75 13.237C6.75 12.919 6.9937 12.675 7.3125 12.675H16.6875C17.0063 12.675 17.25 12.919 17.25 13.237C17.25 13.556 16.9875 13.8 16.6875 13.8Z" fill="black"/>
+                    <path d="M17.6752 6.806V7.806C17.6752 8.331 17.2627 8.744 16.7377 8.744H7.2627C6.7377 8.744 6.3252 8.331 6.3252 7.806V6.806L7.2752 5.181H16.7252L17.6752 6.806Z" fill="#FF534A"/>
+                    <path d="M17.6752 6.806V7.806C17.6752 8.331 17.2627 8.744 16.7377 8.744H7.2627C6.7377 8.744 6.3252 8.331 6.3252 7.806V6.806H17.6752Z" fill="#FF534A"/>
+                    <path d="M8.2377 9.306H7.2627C6.9439 9.306 6.7002 9.062 6.7002 8.744C6.7002 8.425 6.9439 8.181 7.2627 8.181H8.2377C8.5564 8.181 8.8002 8.425 8.8002 8.744C8.8002 9.062 8.5564 9.306 8.2377 9.306ZM12.9564 9.306H11.0439C10.7252 9.306 10.4814 9.062 10.4814 8.744C10.4814 8.425 10.7252 8.181 11.0439 8.181H12.9564C13.2752 8.181 13.5189 8.425 13.5189 8.744C13.5189 9.062 13.2752 9.306 12.9564 9.306ZM10.4564 9.306H9.5439C9.2252 9.306 8.9814 9.062 8.9814 8.744C8.9814 8.425 9.2252 8.181 9.5439 8.181H10.4564C10.7752 8.181 11.0189 8.425 11.0189 8.744C11.0189 9.062 10.7752 9.306 10.4564 9.306ZM15.4564 9.306H14.5439C14.2252 9.306 13.9814 9.062 13.9814 8.744C13.9814 8.425 14.2252 8.181 14.5439 8.181H15.4564C15.7752 8.181 16.0189 8.425 16.0189 8.744C16.0189 9.062 15.7752 9.306 15.4564 9.306ZM16.7377 9.306H16.7627C16.4439 9.306 16.2002 9.062 16.2002 8.744C16.2002 8.425 16.4439 8.181 16.7627 8.181H16.7377C17.0564 8.181 17.3002 8.425 17.3002 8.744C17.3002 9.062 17.0564 9.306 16.7377 9.306Z" fill="black"/>
+                    <path d="M8.9062 7.313C8.8125 7.313 8.7375 7.294 8.6625 7.256C8.3812 7.125 8.2687 6.788 8.4187 6.506L9.1125 5.438C9.2437 5.156 9.6 5.044 9.8625 5.194C10.1437 5.325 10.2562 5.663 10.1062 5.944L9.4125 7.013C9.3187 7.2 9.1125 7.313 8.9062 7.313ZM15.2625 7.313C15.0562 7.313 14.85 7.2 14.7562 6.994L14.0625 5.925C13.9312 5.644 14.0437 5.306 14.3062 5.175C14.5875 5.044 14.925 5.138 15.0562 5.419L15.75 6.488C15.8812 6.769 15.7687 7.106 15.5062 7.238C15.4312 7.294 15.3562 7.313 15.2625 7.313ZM13.25 7.313C12.9875 7.313 12.7625 7.144 12.7062 6.881L12.625 6.294C12.55 5.994 12.7562 5.694 13.0562 5.619C13.3562 5.544 13.6562 5.731 13.7312 6.05L13.8125 6.619C13.8875 6.919 13.6812 7.219 13.3812 7.294C13.3437 7.313 13.3062 7.313 13.25 7.313ZM10.75 7.313C10.7125 7.313 10.675 7.313 10.6375 7.294C10.3375 7.238 10.1312 6.938 10.2062 6.619L10.25 6.069C10.3062 5.769 10.6062 5.563 10.925 5.638C11.225 5.694 11.4312 5.994 11.3562 6.313L11.3125 6.863C11.2562 7.125 11.0125 7.313 10.75 7.313Z" fill="white"/>
+                    <path d="M16.7377 9.306C16.4189 9.306 16.1752 9.062 16.1752 8.744C16.1752 8.425 16.4189 8.181 16.7377 8.181C16.9439 8.181 17.1127 8.012 17.1127 7.806V6.994L16.4439 6.244H7.5564L6.8877 6.994V7.806C6.8877 8.012 7.0564 8.181 7.2627 8.181C7.5814 8.181 7.8252 8.425 7.8252 8.744C7.8252 9.062 7.5814 9.306 7.2627 9.306C6.4377 9.306 5.7627 8.631 5.7627 7.806V6.806C5.7627 6.694 5.8002 6.562 5.8752 6.469L6.8252 5.344C6.9377 5.194 7.1064 5.119 7.2752 5.119H16.7252C16.8939 5.119 17.0627 5.194 17.1752 5.344L18.1252 6.469C18.2002 6.562 18.2377 6.675 18.2377 6.806V7.806C18.2377 8.631 17.5627 9.306 16.7377 9.306Z" fill="black"/>
+                    <path d="M17.675 7.369H6.5313C6.2125 7.369 5.9688 7.125 5.9688 6.806C5.9688 6.487 6.2125 6.244 6.5313 6.244H17.675C17.9938 6.244 18.2375 6.487 18.2375 6.806C18.2375 7.125 17.9938 7.369 17.675 7.369Z" fill="black"/>
+                </svg>
+                <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 18px; color: #000000; margin: 0;">In-Store</p>
+            </button>
+        </div>
+        
+        <!-- Online Redeem Screen -->
+        <div id="onlineRedeemScreen" class="screen">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #FFF6E0 0%, #FFFFFF 100%);"></div>
+            
+            <div style="position: relative; width: 100%; height: 100%; overflow-y: auto;">
+                <div style="position: absolute; left: 24px; top: 12px; right: 24px; height: 40px; z-index: 10;">
+                    <p style="position: absolute; left: 0; top: 0; font-family: SF Pro Text, -apple-system, sans-serif; font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: -0.5px; color: #000000; margin: 0;">9:41</p>
+                    <div style="position: absolute; right: 0; top: 3px; display: flex; align-items: center; gap: 5px;">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5C15.5 3.5 15.5 3.5 15.5 3.5V8.5C15.5 8.5 15.5 8.5 15.5 8.5C15.5 8.5 15.5 8.5 15.5 8.5H13.8333V3.5H15.5ZM12.1667 4.83333V8.5H10.5V4.83333H12.1667ZM8.83333 6.16667V8.5H7.16667V6.16667H8.83333ZM5.5 7.5V8.5H3.83333V7.5H5.5ZM2.16667 8.5V8.91667H0.5V8.5H2.16667Z" fill="black"/>
+                        </svg>
+                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 2.5C9.6569 2.5 11 3.84315 11 5.5C11 7.1569 9.6569 8.5 8 8.5C6.3431 8.5 5 7.1569 5 5.5C5 3.84315 6.3431 2.5 8 2.5ZM0 6C0.82843 6 1.5 5.32843 1.5 4.5C1.5 3.67157 0.82843 3 0 3V6ZM16 6C15.1716 6 14.5 5.32843 14.5 4.5C14.5 3.67157 15.1716 3 16 3V6Z" fill="black"/>
+                        </svg>
+                        <svg width="25" height="12" viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect opacity="0.35" x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="black"/>
+                            <path opacity="0.4" d="M23 4V8C23.6 7.66667 24.2 7.33333 24 6C24 5.33333 23.6 4.66667 23 4Z" fill="black"/>
+                            <rect x="2" y="2" width="18" height="8" rx="1" fill="black"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div style="position: absolute; left: 16px; top: 61px; right: 16px; display: flex; align-items: center; z-index: 10;">
+                    <div onclick="showRedeemScreen()" style="cursor: pointer; width: 24px; height: 24px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 17px; line-height: 22px; text-align: center; color: #000000; margin: 0; flex: 1;">Redeem Online</p>
+                    <div style="width: 24px;"></div>
+                </div>
+                
+                <div style="position: absolute; width: 361px; left: 16px; top: 103px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="position: relative; width: 358px; height: 221.23px; background: #F0E6D0; box-shadow: 0px 4px 20px rgba(173, 173, 173, 0.25); border-radius: 25px; overflow: hidden;">
+                        <svg style="position: absolute; top: 0; left: 0; width: 200px; height: 100%; pointer-events: none;" viewBox="0 0 200 221" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin slice">
+                            <ellipse cx="50" cy="-30" rx="70" ry="80" fill="#F5C563"/>
+                            <ellipse cx="70" cy="80" rx="60" ry="70" fill="#8BC78D"/>
+                            <ellipse cx="80" cy="110" rx="85" ry="100" fill="#5B8CC7"/>
+                            <ellipse cx="60" cy="140" rx="65" ry="80" fill="#2E3E6E"/>
+                        </svg>
+                        
+                        <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+                            <svg width="90" height="28" viewBox="0 0 710 220" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#4f0942" d="M81.56,7.52A8.82,8.82,0,0,0,70.66.28,94.85,94.85,0,0,0,99.05,186.74a8.82,8.82,0,0,0,8.26-10.15Z"/>
+                                <circle fill="#ffbf31" cx="136.79" cy="45.56" r="38.4"/>
+                                <path fill="#ff534a" d="M188.4,109.17l-47.82-7.83a13.92,13.92,0,0,0-15.92,11.55L111.31,196a13.89,13.89,0,0,0,11.41,16l47.82,7.83a13.92,13.92,0,0,0,15.92-11.55l13.35-83.09A13.89,13.89,0,0,0,188.4,109.17Z"/>
+                                <path fill="#2a303d" d="M307.49,91.86v17.76h34.24a27.75,27.75,0,0,1-10.35,16.25q-7.86,5.94-18.94,5.94a31.52,31.52,0,0,1-23-9.16,30.63,30.63,0,0,1-9.33-22.77,31,31,0,0,1,9-22.62,29.88,29.88,0,0,1,22.14-9.17q20.25,0,29.14,16.76l17.77-6.16a39.82,39.82,0,0,0-17.92-21.48,56.65,56.65,0,0,0-29-7.44q-21.55,0-36.42,14.53T260,99.88q0,21.2,15,35.65T311.86,150q21.57,0,35.55-14.18t14-35.65c0-2.2-.15-5-.44-8.31Z"/>
+                                <rect fill="#2a303d" x="369.69" y="76.4" width="19.23" height="71.45"/>
+                                <path fill="#2a303d" d="M379.31,43.75a11.22,11.22,0,0,0-8.3,3.37,10.85,10.85,0,0,0-3.35,7.94,10.45,10.45,0,0,0,3.28,7.88,11.57,11.57,0,0,0,8.37,3.15,11.69,11.69,0,0,0,8.31-3.15A10.37,10.37,0,0,0,391,55.06a10.89,10.89,0,0,0-3.35-7.94A11.24,11.24,0,0,0,379.31,43.75Z"/>
+                                <path fill="#2a303d" d="M494.53,132.39q-10.63,0-10.63-12.32V91.86h23.74V76.4H483.9V54.78H464.67V76.4H429V70a9.74,9.74,0,0,1,3-7.59,11.09,11.09,0,0,1,7.79-2.72,23.85,23.85,0,0,1,7.29,1.28l4.36-15.32a30.94,30.94,0,0,0-13-2.72q-13,0-20.83,7.31T409.76,70V76.4H398.69V91.86h11.07v56H429v-56h35.68V121.5q0,14.33,7.58,21.41t21,7.09q8.88,0,18.94-5.3L506.62,129A26.35,26.35,0,0,1,494.53,132.39Z"/>
+                                <path fill="#2a303d" d="M549.89,74.25q-15.89,0-26.73,10.67T512.3,112.2q0,16.61,10.78,27.2T549.59,150A40.34,40.34,0,0,0,571,144.41,34.53,34.53,0,0,0,584.85,128l-17.19-3.58q-5.68,9.45-18.07,9.45a17,17,0,0,1-11.72-4.51,21.1,21.1,0,0,1-6.49-12.1h55.36v-6.45q-.57-16-11.28-26.27A35.74,35.74,0,0,0,549.89,74.25ZM532,103.89a16,16,0,0,1,6.77-9.74,19.79,19.79,0,0,1,11.15-3.43A18.25,18.25,0,0,1,560.67,94a16.89,16.89,0,0,1,6.41,9.88Z"/>
+                                <path fill="#2a303d" d="M652.3,82.13q-9.62-7.87-24-7.88t-25,10.81q-10.71,10.81-10.71,27.14t10.64,27.06q10.62,10.74,25,10.74,14.28,0,24-7.73v5.58h19.23V44.76H652.3ZM646,127.59a20.37,20.37,0,0,1-14.43,5.94,19.75,19.75,0,0,1-14.64-5.8q-5.75-5.79-5.75-15.53T617,96.59a19.66,19.66,0,0,1,14.65-5.87,20.21,20.21,0,0,1,14.42,6q6.26,6,6.26,15.47T646,127.59Z"/>
+                                <polygon fill="#2a303d" points="705.81 134.16 702.14 141.79 698.51 134.16 694.27 134.16 694.27 147.81 697.9 147.81 697.9 140.84 701.01 147.76 703.26 147.76 706.38 140.84 706.38 147.81 710 147.81 710 134.16 705.81 134.16"/>
+                                <polygon fill="#2a303d" points="680.02 137.37 684.32 137.37 684.31 147.81 688.19 147.81 688.2 137.37 692.59 137.37 692.59 134.16 680.03 134.16 680.02 137.37"/>
+                            </svg>
+                        </div>
+                        
+                        <div style="position: absolute; left: 22.35px; top: 109px; filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.8)); z-index: 5;">
+                            <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-weight: 400; font-size: 12px; line-height: 16px; color: #FFFFFF; margin: 0;">CARD NUMBER</p>
+                            <p style="font-family: 'Inter', -apple-system, sans-serif; font-weight: 500; font-size: 18px; line-height: 22px; letter-spacing: 3px; color: #FFFFFF; margin: 0;">2223 **** **** ****</p>
+                        </div>
+                        
+                        <div style="position: absolute; left: 22.35px; top: 163px; filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.8)); z-index: 5;">
+                            <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-weight: 400; font-size: 12px; line-height: 16px; color: #FFFFFF; margin: 0;">EXPIRE ON</p>
+                            <p style="font-family: 'Inter', -apple-system, sans-serif; font-weight: 500; font-size: 18px; line-height: 22px; letter-spacing: 3px; color: #FFFFFF; margin: 0;">03/28</p>
+                        </div>
+                        
+                        <div style="position: absolute; left: 198.88px; top: 163px; filter: drop-shadow(0px 2px 3px #000000); z-index: 5;">
+                            <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-weight: 400; font-size: 12px; line-height: 16px; color: #FFFFFF; margin: 0;">CVC</p>
+                            <p style="font-family: 'Inter', -apple-system, sans-serif; font-weight: 500; font-size: 18px; line-height: 22px; letter-spacing: 3px; color: #FFFFFF; margin: 0;">324</p>
+                        </div>
+                        
+                        <div style="position: absolute; right: 16px; bottom: 16px; z-index: 5;">
+                            <svg width="75" height="53" viewBox="0 0 152.4 108" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="60.4" y="25.7" fill="#FF5F00" width="31.5" height="56.6"/>
+                                <path fill="#EB001B" d="M62.4,54c0-11,5.1-21.5,13.7-28.3c-15.6-12.3-38.3-9.6-50.6,6.1C13.3,47.4,16,70,31.7,82.3c13.1,10.3,31.4,10.3,44.5,0C67.5,75.5,62.4,65,62.4,54z"/>
+                                <path fill="#F79E1B" d="M134.4,54c0,19.9-16.1,36-36,36c-8.1,0-15.9-2.7-22.2-7.7c15.6-12.3,18.3-34.9,6-50.6c-1.8-2.2-3.8-4.3-6-6c15.6-12.3,38.3-9.6,50.5,6.1C131.7,38.1,134.4,45.9,134.4,54z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button style="width: 100%; height: 44px; background: #4062CC; border-radius: 50px; border: none; cursor: pointer; font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 16px; color: #FFFFFF;">
+                            View Card Number
+                        </button>
+                        <button style="width: 100%; height: 44px; background: #FF5A52; border-radius: 50px; border: none; cursor: pointer; font-family: Galano Grotesque Alt, sans-serif; font-weight: 600; font-size: 16px; color: #FFFFFF;">
+                            Top Up
+                        </button>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 8px;">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 15px; line-height: 20px; color: #000000; margin: 0;">Heads-up!</p>
+                            <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 13px; line-height: 18px; color: #000000; margin: 0;">This card will remain valid for 30 days from today. After that you'll need to retrieve a new card and add it again</p>
+                            <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 13px; line-height: 18px; color: #000000; margin: 0;">To use your gift card, please select 'Card Payment' at checkout and enter the Mastercard details provided.</p>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <p style="font-family: Galano Grotesque, sans-serif; font-weight: 500; font-size: 15px; line-height: 20px; color: #888888; margin: 0;">Balance</p>
+                                <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 20px; line-height: 24px; color: #000000; margin: 0;">450 EUR</p>
+                            </div>
+                            <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 11px; line-height: 16px; text-align: right; color: #AAAAAA; margin: 0;">Balance last updated on Mon, 21 Apr 2025, 10:34:31</p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px solid #E8E8E8; border-bottom: 1px solid #E8E8E8; cursor: pointer;">
+                            <p style="font-family: Galano Grotesque, sans-serif; font-weight: 500; font-size: 15px; line-height: 20px; color: #4062CC; margin: 0;">To Moderna Museets Butik SE</p>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 14L11 10L7 6" stroke="#4062CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                            <p style="font-family: Galano Grotesque Alt, sans-serif; font-weight: 700; font-size: 15px; line-height: 20px; color: #000000; margin: 0;">Online Redeem Instructions</p>
+                            <p style="font-family: Galano Grotesque, sans-serif; font-weight: 400; font-size: 13px; line-height: 18px; color: #000000; margin: 0;">Copy the Gifted Mastercard and enter in the voucher field at the merchant's checkout page for online redemption. Merchant's terms & conditions apply.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let codeProvider = 'mastercard';
+        
+        function toggleCodeProvider() {
+            codeProvider = codeProvider === 'mastercard' ? 'mixed' : 'mastercard';
+            updateUI();
+        }
+        
+        function showRedeemScreen() {
+            document.getElementById('cardDetailScreen').classList.remove('active');
+            document.getElementById('onlineRedeemScreen').classList.remove('active');
+            document.getElementById('redeemScreen').classList.add('active');
+        }
+        
+        function showCardScreen() {
+            document.getElementById('redeemScreen').classList.remove('active');
+            document.getElementById('onlineRedeemScreen').classList.remove('active');
+            document.getElementById('cardDetailScreen').classList.add('active');
+        }
+        
+        function showOnlineRedeemScreen() {
+            document.getElementById('redeemScreen').classList.remove('active');
+            document.getElementById('cardDetailScreen').classList.remove('active');
+            document.getElementById('onlineRedeemScreen').classList.add('active');
+        }
+        
+        function updateUI() {
+            const toggleText = document.getElementById('toggleText');
+            const revealBtn = document.getElementById('revealBtn');
+            const poweredByCard = document.getElementById('poweredByCard');
+            const poweredByOnline = document.getElementById('poweredByOnline');
+            
+            if (codeProvider === 'mastercard') {
+                toggleText.textContent = 'Both MC';
+                revealBtn.textContent = 'Reveal Mastercard';
+                poweredByCard.style.display = 'flex';
+                poweredByOnline.style.display = 'none';
+            } else {
+                toggleText.textContent = 'Mixed';
+                revealBtn.textContent = 'Reveal Value Code';
+                poweredByCard.style.display = 'none';
+                poweredByOnline.style.display = 'flex';
+            }
+        }
+        
+        updateUI();
+    </script>
+</body>
+</html>
